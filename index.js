@@ -1,6 +1,6 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-require("dotenv").config();
 const { MongoClient, ObjectId, ServerApiVersion } = require("mongodb");
 
 const app = express();
@@ -21,10 +21,10 @@ const client = new MongoClient(uri, {
 
 async function run() {
   try {
-    await client.connect();
+    // await client.connect();
     const tasksCollection = client.db("TasksDB").collection("tasks");
 
-    // Add Task (POST)
+    
     app.post("/tasks", async (req, res) => {
       const { userId, title, description, category } = req.body;
       try {
@@ -42,7 +42,7 @@ async function run() {
       }
     });
 
-    // Get Tasks (GET)
+    
     app.get("/tasks", async (req, res) => {
       const { userId } = req.query;
       try {
@@ -53,7 +53,7 @@ async function run() {
       }
     });
 
-    // Update Task (PUT)
+   
     app.put("/tasks/:id", async (req, res) => {
       const { title, description, category } = req.body;
       const { id } = req.params;
@@ -68,19 +68,6 @@ async function run() {
       }
     });
 
-    // app.put("/tasks/:id", async (req, res) => {
-    //     const { id } = req.params;
-    //     const { category } = req.body;
-      
-    //     try {
-    //       await Task.updateOne({ _id: id }, { category });
-    //       res.status(200).send("Task category updated");
-    //     } catch (err) {
-    //       res.status(500).send("Error updating task category");
-    //     }
-    //   });
-
-    // Delete Task (DELETE)
     app.delete("/tasks/:id", async (req, res) => {
       const { id } = req.params;
       try {
